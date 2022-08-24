@@ -1,5 +1,5 @@
 import { ActionIcon, Button, Group, Tooltip } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import AddEditRecord from "../components/RecordForm";
 import { useQuery } from "@tanstack/react-query";
@@ -27,9 +27,11 @@ const Home = () => {
     retry: false,
   });
 
-  if (!user) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user]);
 
   return (
     <Layout>

@@ -14,19 +14,23 @@ import {
 } from "@mantine/core";
 import Layout from "../components/Layout";
 import { AxiosError } from "axios";
-import { apiRegister } from "../api/users";
-import { useQueryClient } from "@tanstack/react-query";
+import { apiRegister, getCurrentUser } from "../api/users";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { data: user } = useQuery(["user"], getCurrentUser, {
+    retry: false,
+  });
+
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (user) {
       navigate("/");
     }
-  }, []);
+  }, [user]);
 
   const form = useForm({
     initialValues: {
